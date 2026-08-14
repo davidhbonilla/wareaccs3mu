@@ -46,7 +46,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "DolorDL-temp04"
-    }  ],
+    }
+  ],
   "DK_Garuda_0": [
     {
       "l1": false,
@@ -148,7 +149,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "TEMP20 /BAUL"
-    }  ],
+    }
+  ],
   "DK_Anonymous_0": [
     {
       "l1": false,
@@ -194,6 +196,15 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temp16"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
     }
   ],
   "ELF_Gaia_2": [
@@ -214,6 +225,15 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temptienda-"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
     }
   ],
   "ELF_Odin_2": [
@@ -344,7 +364,17 @@
       "a28": false,
       "v": "VIT +10",
       "loc": "TEMP20 /BAUL"
-    }  ],
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp31/Baul"
+    }
+  ],
   "ELF_Ceto_3": [
     {
       "l1": false,
@@ -484,6 +514,15 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temp17-"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
     }
   ],
   "ELF_Fase_1": [
@@ -504,6 +543,15 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "temp01/bktemp"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +10",
+      "loc": "temp27/Baul"
     }
   ],
   "ELF_Gaia_0": [
@@ -578,6 +626,15 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "TEMP20/BAUL"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Pulzina"
     }
   ],
   "DK_Warrior_0": [
@@ -676,6 +733,24 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "dayi/conejita"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Pulzina"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Baul"
     }
   ],
   "ELF_Argo_1": [
@@ -752,7 +827,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "temp01/bktemp"
-    }  ],
+    }
+  ],
   "MAGO_Heras_0": [
     {
       "l1": false,
@@ -876,6 +952,15 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temptienda-"
+    },
+    {
+      "l1": true,
+      "l2": true,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
     }
   ],
   "MAGO_Isis_3": [
@@ -896,7 +981,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temp17-"
-    }  ],
+    }
+  ],
   "ELF_Ceto_5": [
     {
       "l1": false,
@@ -953,7 +1039,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "DolorDL-temp04"
-    }  ],
+    }
+  ],
   "DK_Eplete_3": [
     {
       "l1": false,
@@ -981,7 +1068,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "DolorDL-temp04"
-    }  ],
+    }
+  ],
   "ELF_Gywen_3": [
     {
       "l1": false,
@@ -1018,7 +1106,17 @@
       "a28": false,
       "v": "VIT +10",
       "loc": "TEMP20 /BAUL"
-    }  ],
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Baul"
+    }
+  ],
   "DK_Cloud_0": [
     {
       "l1": true,
@@ -1100,6 +1198,15 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "temp01/bktemp"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Baul"
     }
   ],
   "DK_Mist_1": [
@@ -1129,7 +1236,17 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temp17-"
-    }  ],
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +10",
+      "loc": "temp27/Baul"
+    }
+  ],
   "ELF_Gaia_3": [
     {
       "l1": false,
@@ -1139,7 +1256,17 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "DolorDL-temp04"
-    }  ],
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
+    }
+  ],
   "ELF_Aruan_0": [
     {
       "l1": false,
@@ -1176,7 +1303,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temp17-"
-    } ],
+    }
+  ],
   "ELF_Gywen_2": [
     {
       "l1": true,
@@ -1186,7 +1314,8 @@
       "a28": false,
       "v": "VIT +10",
       "loc": "DolorDL-temp04"
-    }  ],
+    }
+  ],
   "MAGO_Apollo_1": [
     {
       "l1": false,
@@ -1214,7 +1343,26 @@
       "a28": false,
       "v": "VIT +10",
       "loc": "TEMP20/BAUL"
-    }  ],
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
+    }
+  ],
   "MG_Gaion_2": [
     {
       "l1": false,
@@ -1242,7 +1390,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temptienda-"
-    }  ],
+    }
+  ],
   "MG_Gaion_0": [
     {
       "l1": false,
@@ -1261,7 +1410,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temp16"
-    }  ],
+    }
+  ],
   "MG_Myuren_1": [
     {
       "l1": false,
@@ -1336,7 +1486,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temptienda-"
-    }  ],
+    }
+  ],
   "ELF_Drake_1": [
     {
       "l1": false,
@@ -1382,7 +1533,8 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "temp01/bktemp"
-    }  ],
+    }
+  ],
   "DL_Broy_1": [
     {
       "l1": false,
@@ -1793,6 +1945,24 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temp16"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Pulzina"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
     }
   ],
   "DK_Anonymous_3": [
@@ -2084,6 +2254,24 @@
       "a28": false,
       "v": "VIT +10",
       "loc": "-temp17-"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Baul"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Baul"
     }
   ],
   "ELF_Gywen_4": [
@@ -2358,6 +2546,15 @@
       "a28": false,
       "v": "VIT +10",
       "loc": "-temp16"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Pulzina"
     }
   ],
   "MAGO_Sylion_0": [
@@ -2398,6 +2595,15 @@
       "a28": false,
       "v": "VIT +10",
       "loc": "TEMP20/BAUL"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
     }
   ],
   "MAGO_Sylion_1": [
@@ -2534,15 +2740,6 @@
       "sk": false,
       "a16": false,
       "a28": false,
-      "v": "VIT +5",
-      "loc": "-temp16"
-    },
-    {
-      "l1": false,
-      "l2": false,
-      "sk": false,
-      "a16": false,
-      "a28": false,
       "v": "VIT +10",
       "loc": "temp01/bktemp"
     }
@@ -2625,6 +2822,15 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "dayi/conejita"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Pulzina"
     }
   ],
   "MAGO_Anubis_1": [
@@ -2820,6 +3026,15 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "-temptienda-"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
     }
   ],
   "ELF_Odin_0": [
@@ -2900,6 +3115,24 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "temp01/bktemp"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Pulzina"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
     }
   ],
   "DL_Agnis_1": [
@@ -2922,6 +3155,24 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "dayi/conejita"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
     }
   ],
   "DK_Hyperion_2": [
@@ -2993,6 +3244,15 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "TEMP20/BAUL"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp22/Baul"
     }
   ],
   "DK_Eplete_2": [
@@ -3016,6 +3276,37 @@
       "a28": false,
       "v": "VIT +5",
       "loc": "TEMP20/BAUL"
+    }
+  ],
+  "DK_Kantata_0": [
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
+    },
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
+    }
+  ],
+  "ELF_Ceto_1": [
+    {
+      "l1": false,
+      "l2": false,
+      "sk": false,
+      "a16": false,
+      "a28": false,
+      "v": "VIT +5",
+      "loc": "temp27/Baul"
     }
   ]
 }
