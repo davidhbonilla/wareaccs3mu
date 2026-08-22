@@ -101,36 +101,33 @@ MAGO: [{n:'ANUBIS + BERNACKE', s:['Ignorar Defensa +5%','Daño Doble +10%'], h:'
 DK: [{n:'HYON + VICIOUS', s:['Daño Crítico +40','Daño Doble +15%'], h:'Daño BK.'}]
 };
 
-// ENLACES DIRECTOS CONFIGURADOS A TU CONTENEDOR PERSONAL DE JSONBIN
+// ENLACE DIRECTO SIN CORS KVDB.IO
+const KVDB_URL = 'https://kvdb.io';
+
 function cargarDatosDesdeSupabase() {
-    fetch('https://jsonbin.io', {
-        method: 'GET',
-        headers: { 'X-Master-Key': '$2a$10$AHz86Awq/Y0yjpfvr0a7Z0oZGhibaJCFD9QBoTykNafozGKo0wSfO' }
+    fetch(KVDB_URL)
+    .then(response => {
+        if(!response.ok) throw new Error("Vacío");
+        return response.json();
     })
-    .then(response => response.json())
-    .then(res => {
-        if (res.record) {
-            stock = res.record;
+    .then(data => {
+        if (data) {
+            stock = data;
             localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock));
             actualizarContadores();
             if (document.getElementById('txt-base-datos')) { forzarCargaTextoMU(); }
-            const botonActivo = document.querySelector('.btn-pj.active');
-            if (botonActivo) { verPestaña('STOCK'); }
+            verPestaña('STOCK');
         }
     })
-    .catch(err => console.error("Error crítico al leer datos de la nube:", err));
+    .catch(err => console.log("Iniciando con base local o vacía"));
 }
 
 function guardarDatosEnSupabase() {
-    fetch('https://jsonbin.io', {
-        method: 'PUT',
-        headers: { 
-            'Content-Type': 'application/json', 
-            'X-Master-Key': '$2a$10$AHz86Awq/Y0yjpfvr0a7Z0oZGhibaJCFD9QBoTykNafozGKo0wSfO' 
-        },
+    fetch(KVDB_URL, {
+        method: 'POST',
         body: JSON.stringify(stock)
     })
-    .catch(err => console.error("Error crítico al escribir datos en la nube:", err));
+    .catch(err => console.error("Error al guardar:", err));
 }
 
 const KEYS = ['mu_warehouse_vFinal', 'mu_warehouse_v7', 'mu_warehouse_v6'];
