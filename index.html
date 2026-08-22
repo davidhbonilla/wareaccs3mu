@@ -111,13 +111,15 @@ function cargarDatosDesdeSupabase() {
     })
     .then(response => response.json())
     .then(data => {
+        // CORRECCIÓN TÉCNICA: Leemos la primera posición de la lista [0] que manda el servidor
         if (data && data.length > 0 && data[0].datos) {
             stock = data[0].datos;
             localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock));
             actualizarContadores();
             if (document.getElementById('txt-base-datos')) { forzarCargaTextoMU(); }
             const botonActivo = document.querySelector('.btn-pj.active');
-            if (botonActivo) { botonActivo.click(); }
+            if (botonActivo) { verPestaña('STOCK'); }
+            console.log("Datos sincronizados desde la nube correctamente.");
         }
     })
     .catch(err => console.error("Error al cargar de Supabase:", err));
