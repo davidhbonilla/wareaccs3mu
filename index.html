@@ -101,7 +101,6 @@ MAGO: [{n:'ANUBIS + BERNACKE', s:['Ignorar Defensa +5%','Daño Doble +10%'], h:'
 DK: [{n:'HYON + VICIOUS', s:['Daño Crítico +40','Daño Doble +15%'], h:'Daño BK.'}]
 };
 
-// CORRECCIÓN TOTAL DE CREDENCIALES Y ACENTOS INVERTIDOS PARA FETCH
 const SUPABASE_URL = 'https://supabase.co';
 const SUPABASE_KEY = 'sb_publishable_7wOgK9YWZmmeEyLCKxYp-g_br2tB_pUv8_m4S-yA1tM-UuO-mK6';
 
@@ -118,7 +117,7 @@ function cargarDatosDesdeSupabase() {
             actualizarContadores();
             if (document.getElementById('txt-base-datos')) { forzarCargaTextoMU(); }
             const botonActivo = document.querySelector('.btn-pj.active');
-            if (botonActivo) { verPestaña('STOCK'); }
+            if (botonActivo) { botonActivo.click(); }
         }
     })
     .catch(err => console.error("Error al cargar de Supabase:", err));
