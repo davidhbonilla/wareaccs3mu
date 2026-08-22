@@ -1,151 +1,62 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>ArgMU S3 - Warehouse Control Pro</title>
-<style>
-:root { --gold: #d4af37; --bg: #050505; --card: #111; --acc: #00e5ff; --green: #52ff52;
---red: #ff4d4d; --orange: #ff8c00; --blue-ancient: #7daeff; --blue-info: #0095ff; }
-body { background: var(--bg); color: #eee; font-family: 'Tahoma', sans-serif; margin: 0; padding: 20px; }
-h1 { text-align: center; color: var(--gold); text-transform: uppercase; border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 10px; }
-.resumen-global { display: flex; justify-content: center; gap: 40px; margin-bottom: 20px; background: #111; padding: 15px; border: 1px solid #333; position: relative; }
-.stat-count { display: block; font-size: 24px; color: var(--gold); font-weight: bold; text-align: center; }
-.btn-reset { position: absolute; right: 15px; top: 25px; background: #220000; color: var(--red); border: 1px solid var(--red); padding: 5px 10px; cursor: pointer; font-size: 10px; font-weight: bold; }
-.filtros { display: flex; justify-content: center; gap: 8px; margin-bottom: 30px; flex-wrap: wrap; }
-.btn-pj { background: #1a1a1a; color: #fff; border: 1px solid var(--gold); padding: 10px 18px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
-.btn-pj.active { background: var(--gold); color: #000; box-shadow: 0 0 10px var(--gold); }
-.container { max-width: 1200px; margin: auto; }
-.sets-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-.set-link { background: #1a1a1a; border: 1px solid #333; padding: 20px; text-align: center; cursor: pointer; color: var(--acc); font-weight: bold; text-transform: uppercase; border-radius: 4px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-.card { background: var(--card); border: 1px solid #333; padding: 15px; border-radius: 4px; border-top: 3px solid var(--acc); }
-.btn-add { background: var(--gold); border: 1px solid #000; color: #000; width: 100%; padding: 10px; cursor: pointer; font-weight: bold; margin-top: 10px; text-transform: uppercase; border-radius: 3px; }
-.full-set-row { background: #0a1a0a; border: 1px solid var(--green); padding: 15px; margin-bottom: 20px; border-radius: 4px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
-.full-set-title { color: var(--green); font-weight: bold; font-size: 15px; text-transform: uppercase; border-right: 2px solid #1a331a; padding-right: 20px; min-width: 160px; }
-.sobrante-card { background: #000; border: 1px solid #333; padding: 10px; width: 220px; border-top: 2px solid var(--acc); }
-.sobrante-name { font-size: 10px; color: var(--acc); font-weight: bold; display: block; margin-bottom: 5px; }
-.loc-tag { font-size: 9px; color: #888; font-style: italic; display: block; border-top: 1px solid #222; padding-top: 3px; margin-top: 4px; }
-.tag { font-size: 9px; padding: 1px 4px; border-radius: 2px; font-weight: bold; margin-right: 3px; display: inline-block; }
-.tag-v10 { background: #ffd700; color: #000; } .tag-v5 { background: #222; color: #aaa; }
-.tag-luck { background: #00e5ff; color: #000; } .tag-skill { background: #52ff52; color: #000; }
-.tag-opt { background: #ff00ff; color: #fff; }
-.btn-sell { background: var(--red); color: #fff; padding: 2px 6px; border: none; cursor: pointer; border-radius: 2px; font-size: 10px; }
-.mini-list { background: #000; padding: 8px; margin-top: 8px; font-size: 11px; border-radius: 3px; }
-.mini-item { border-bottom: 1px solid #222; padding: 6px 0; display: flex; justify-content: space-between; align-items: center; }
-.btn-export { background: #333; color: var(--gold); border: 1px solid var(--gold); padding: 4px 10px; cursor: pointer; font-size: 10px; font-weight: bold; margin-left: 15px; border-radius: 3px; }
-.btn-export.socio { border-color: var(--blue-info); color: var(--blue-info); }
-#modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; }
-#modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #161616; border: 2px solid var(--gold); padding: 25px; min-width: 380px; z-index: 101; }
-.ancient-box { background: #000; border: 1px solid #222; padding: 15px; margin-bottom: 20px; text-align: center; border-radius: 4px; }
-.ancient-stat { color: var(--blue-ancient); font-size: 13px; display: block; margin: 2px; }
-.faltante-card { background: #0e0700; border: 1px dashed var(--orange); padding: 10px; width: 180px; opacity: 0.8; }
-.header-sec { color: var(--gold); border-left: 5px solid var(--gold); padding-left: 10px; margin: 40px 0 15px 0; text-transform: uppercase; font-size: 16px; }
-.caja-edicion-mu { width: 100%; background: #111; border: 1px solid #333; padding: 20px; border-top: 3px solid var(--gold); box-sizing: border-box; }
-.caja-edicion-mu h2 { color: var(--gold); font-size: 16px; text-transform: uppercase; margin-top: 0; margin-bottom: 15px; }
-.caja-edicion-mu textarea { width: 100%; height: 400px; background: #000; color: #52ff52; border: 1px solid #444; font-family: monospace; padding: 10px; box-sizing: border-box; resize: vertical; font-size: 12px; }
-.caja-edicion-mu .botones-zona-mu { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; }
-.btn-db-mu { background: #222; color: #fff; border: 1px solid #555; padding: 10px 20px; cursor: pointer; font-weight: bold; font-size: 12px; border-radius: 3px; text-transform: uppercase; }
-.btn-db-mu-save { background: #1a331a; color: var(--green); border-color: var(--green); }
-</style>
-</head>
-<body>
-<h1>ArgMU S3 - Warehouse Control</h1>
-<div class="resumen-global">
-<div><span style="color:#888">TOTAL ITEMS</span><span class="stat-count" id="count-items">0</span></div>
-<div><span style="color:#888">SETS COMPLETOS</span><span class="stat-count" id="count-sets" style="color:var(--green)">0</span></div>
-<button class="btn-reset" onclick="factoryReset()">⚠️ RESET</button>
-</div>
-<div class="filtros">
-<button class="btn-pj active" onclick="verPestaña('STOCK', this)">STOCK / URGENTE</button>
-<button class="btn-pj" onclick="verPestaña('ALMACEN', this)">ALMACÉN</button>
-<button class="btn-pj" onclick="verPestaña('COMBOS', this)">⚙️ COMBINACIONES</button>
-<button class="btn-pj" onclick="verPestaña('MAGO', this)">MAGO</button>
-<button class="btn-pj" onclick="verPestaña('DK', this)">DK</button>
-<button class="btn-pj" onclick="verPestaña('ELF', this)">ELF</button>
-<button class="btn-pj" onclick="verPestaña('MG', this)">MG</button>
-<button class="btn-pj" onclick="verPestaña('DL', this)">DL</button>
-<button class="btn-pj" style="border-color: var(--orange); color: var(--orange);" onclick="verPestaña('COMPONENTE_DATA', this)">Base de Datos</button>
-</div>
-<div class="container" id="content"></div>
-<div id="modal-overlay" onclick="cerrarModal()"></div>
-<div id="modal">
-<h3 id="modal-item-name" style="color: var(--acc); margin-top:0"></h3>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-<label><input type="checkbox" id="m-l1"> LUCK (Joyas)</label>
-<label><input type="checkbox" id="m-l2"> LUCK (Crítico)</label>
-<label><input type="checkbox" id="m-sk"> SKILL</label>
-<label><input type="checkbox" id="m-a16"> OPT +16</label>
-<label><input type="checkbox" id="m-a28"> OPT +28</label>
-</div>
-<div style="margin-top:15px">
-<label style="font-size:11px; color:var(--gold)">VIT OPCIÓN:</label>
-<select id="m-vit" style="width:100%; background:#000; color:#fff; padding:10px; border:1px solid #444;">
-<option value="VIT +5">VIT +5</option><option value="VIT +10">VIT +10</option>
-</select>
-</div>
-<div style="margin-top:10px">
-<label style="font-size:11px; color:var(--gold)">UBICACIÓN (PJ/CUENTA):</label>
-<input type="text" id="m-loc" style="width:94%; background:#000; color:var(--green); padding:8px; border:1px solid #444;" placeholder="Ej: Cuenta 1 - Baul">
-</div>
-<button class="btn-add" onclick="guardarItem()">GUARDAR PIEZA</button>
-</div>
-<script>
-const DB = {
-MAGO: { 'Apollo':['Pad Helm Apollo','Pad Armor Apollo','Pad Pants Apollo','Pad Gloves Apollo','Pendant of Ice Apollo','Ring of Magic Apollo'], 'Bernake':['Pad Helm Bernake','Pad Pants Bernake','Pad Boots Bernake'], 'Mine':['Sphinx Helm Mine','Sphinx Armor Mine','Sphinx Pants Mine','Sphinx Boots Mine'], 'Evis':['Bone Armor Evis','Bone Pants Evis','Bone Boots Evis','Pendant of Wind Evis'], 'Sylion':['Bone Helm Sylion','Bone Armor Sylion', 'Bone Gloves Sylion', 'Bone Boots Sylion',], 'Heras':['Sphinx Helm Heras','Sphinx Armor Heras','Sphinx Pants Heras','Sphinx Gloves Heras','Sphinx Boots Heras','Skull Shield Heras'], 'Anubis':['Legendary Helm Anubis','Legendary Armor Anubis','Legendary Gloves Anubis','Ring of Fire Anubis'], 'Isis':['Legendary Helm Isis','Legendary Armor Isis','Legendary Pants Isis','Legendary Boots Isis'] },
-DK: { 'Warrior':['Leather Helm Warrior','Leather Armor Warrior','Leather Pants Warrior','Leather Gloves Warrior','Leather Boots Warrior','Ring of Ice Warrior','Morning Star Warrior'], 'Mist':['Bronze Helm Mist','Bronze Pants Mist','Bronze Gloves Mist'], 'Hyperion':['Bronze Armor Hyperion','Bronze Pants Hyperion','Bronze Boots Hyperion'], 'Anonymous':['Leather Helm Anonymous','Leather Pants Anonymous','Leather Boots Anonymous','Kite Shield Anonymous'], 'Eplete':['Scale Helm Eplete','Scale Armor Eplete','Scale Pants Eplete','Scale Shield Eplete','Pendant of Lightning Eplete'], 'Berserker':['Scale Helm Berserker','Scale Armor Berserker','Scale Pants Berserker','Scale Gloves Berserker','Scale Boots Berserker'], 'Rave':['Plate Helm Rave','Plate Armor Rave','Plate Pants Rave'], 'Cloud':['Brass Helm Cloud','Brass Pants Cloud'], 'Garuda':['Brass Armor Garuda','Brass Pants Garuda','Brass Gloves Garuda','Brass Boots Garuda','Pendant of Fire Garuda'], 'Kantata':['Plate Armor Kantata','Plate Pants Kantata','Plate Gloves Kantata','Plate Boots Kantata','Ring of Poison Kantata','Ring of Wind Kantata'], 'Hyon':['Dragon Helm Hyon','Dragon Boots Hyon','Dragon Gloves Hyon','Lightning Sword Hyon'], 'Vicious':['Dragon Helm Vicious','Dragon Armor Vicious','Ring of Earth Vicious','Dragon Pants Vicious'] },
-ELF: { 'Ceto':['Vine Helm Ceto','Vine Pants Ceto','Vine Gloves Ceto','Vine Boots Ceto','Rapier Ceto','Ring of Earth Ceto'], 'Gaia':['Silk Helm Gaia','Silk Armor Gaia','Silk Pants Gaia','Silk Gloves Gaia','Golden Crossbow Gaia'], 'Fase':['Silk Pants Fase','Silk Gloves Fase','Silk Boots Fase'], 'Drake':['Vine Helm Drake','Vine Armor Drake','Vine Pants Drake','Vine Boots Drake'], 'Odin':['Wind Helm Odin','Wind Armor Odin','Wind Pants Odin','Wind Gloves Odin','Wind Boots Odin'], 'Argo':['Spirit Armor Argo','Spirit Pants Argo','Spirit Gloves Argo'], 'Karis':['Spirit Armor Karis','Spirit Pants Karis','Spirit Boots Karis','Pendant of Ice Karis'], 'Gywen':['Guardian Armor Gywen','Guardian Gloves Gywen','Guardian Boots Gywen','Silver Bow Gywen', 'Pendant of Ability Gywen'], 'Aruan':['Guardian Helm Aruan','Guardian Armor Aruan','Guardian Pants Aruan','Guardian Boots Aruan'], 'Elvian':['Wind Pants Elvian', 'Wind Boots Elvian'] },
-MG: { 'Gaion':['Storm Crow Armor Gaion','Storm Crow Pants Gaion','Storm Crow Boots Gaion','Pendant of Water Gaion'], 'Myuren':['Storm Crow Armor Myuren','Storm Crow Gloves Myuren','Pendant of Fire Myuren'] },
-DL: { 'Agnis':['Adamantine Helm Agnis','Adamantine Armor Agnis','Adamantine Pants Agnis','Ring of Poison Agnis'], 'Broy':['Adamantine Pants Broy','Adamantine Gloves Broy','Adamantine Boots Broy','Pendant of Ice Broy'] }
-};
-const COMBOS = {
-MAGO: [{n:'ANUBIS + BERNACKE', s:['Ignorar Defensa +5%','Daño Doble +10%'], h:'Meta SM.'}],
-DK: [{n:'HYON + VICIOUS', s:['Daño Crítico +40','Daño Doble +15%'], h:'Daño BK.'}]
-};
+// ===================================================
+// NUEVA CONEXIÓN DE ALTA VELOCIDAD CON SUPABASE
+// ===================================================
+const SUPABASE_URL = 'https://supabase.co';
+const SUPABASE_KEY = 'sb_publishable_7wOgK9YWZmmeEyLCKxYp-g_br2tB_pUv8_m4S-yA1tM-UuO-mK6'; // Usa la que copiaste completa si esta se corta
 
-// ==========================================
-// NUEVO SISTEMA DE ENLACE Y DESCARGA AUTOMÁTICA
-// ==========================================
-const URL_GITHUB_DB = 'mu_warehouse_vFinal (1).txt';
-
-
-function cargarBaseDatosDesdeGitHub() {
-    fetch(URL_GITHUB_DB)
-        .then(response => {
-            if (!response.ok) throw new Error('Error al conectar con GitHub');
-            return response.text();
-        })
-        .then(textoDescargado => {
-            try {
-                const datosFormateados = JSON.parse(textoDescargado);
-                localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(datosFormateados));
-                stock = datosFormateados;
-                actualizarContadores();
-                if (document.getElementById('txt-base-datos')) {
-                    forzarCargaTextoMU();
-                }
-                const botonActivo = document.querySelector('.btn-pj.active');
-                if (botonActivo) { botonActivo.click(); }
-                console.log("Base de datos de GitHub sincronizada con éxito.");
-            } catch (e) {
-                console.error("El archivo de GitHub no contiene una estructura JSON limpia.", e);
+// Función profesional para DESCARGAR tus datos en PC o Celular al abrir la web
+function cargarDatosDesdeSupabase() {
+    fetch(`${SUPABASE_URL}/rest/v1/inventario_mu?id=eq.1`, {
+        method: 'GET',
+        headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.length > 0 && data[0].datos) {
+            stock = data[0].datos;
+            // Guardamos una copia en el navegador por si te quedas sin internet
+            localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock));
+            
+            // Actualizamos la pantalla de tu juego de inmediato
+            actualizarContadores();
+            if (document.getElementById('txt-base-datos')) {
+                forzarCargaTextoMU();
             }
-        })
-        .catch(err => console.warn("Cargando en modo local/caché:", err.message));
+            const botonActivo = document.querySelector('.btn-pj.active');
+            if (botonActivo) { b.click(); }
+            console.log("¡Datos sincronizados desde la nube de Supabase!");
+        }
+    })
+    .catch(err => console.error("Error al leer de la base de datos:", err));
 }
 
+// Función profesional para GUARDAR en la nube automáticamente
+function guardarDatosEnSupabase() {
+    fetch(`${SUPABASE_URL}/rest/v1/inventario_mu?id=eq.1`, {
+        method: 'PATCH',
+        headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ datos: stock })
+    })
+    .then(() => {
+        console.log("¡Cambios guardados en la nube de Supabase!");
+    })
+    .catch(err => alert("Error crítico al guardar en la nube: " + err));
+}
+
+// Configuración inicial al arrancar el juego
 const KEYS = ['mu_warehouse_vFinal', 'mu_warehouse_v7', 'mu_warehouse_v6'];
 let stock = JSON.parse(localStorage.getItem('mu_warehouse_vFinal')) || {};
-if(Object.keys(stock).length === 0) { 
-    for(let k of KEYS) { 
-        let d = JSON.parse(localStorage.getItem(k)); 
-        if(d && Object.keys(d).length > 0) { 
-            stock = d; 
-            localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); 
-            break; 
-        } 
-    } 
-}
-cargarBaseDatosDesdeGitHub();
+
+// Ejecutamos la descarga automática de tu stock real en la nube
+cargarDatosDesdeSupabase();
 
 let cur = {};
 function getEmoji(n){ let l=n.toLowerCase(); if(l.includes('helm')) return "🪖"; if(l.includes('armor')) return "👕"; if(l.includes('pants')) return "👖"; if(l.includes('gloves')) return "🧤"; if(l.includes('boots')) return "🥾"; if(l.includes('ring')) return "💍"; if(l.includes('pendant')) return "📿"; if(l.includes('shield')) return "🛡️"; return "⚔️"; }
@@ -186,23 +97,36 @@ if(urgs.length>0){ c.innerHTML += `<div class="header-sec" style="color:var(--re
 function renderCombos(c){ for(let p in COMBOS){ c.innerHTML+=`<div class="header-sec">${p}</div>`; COMBOS[p].forEach(co=>{ c.innerHTML+=`<div class="ancient-box"><div style="color:var(--gold);font-weight:bold">${co.n}</div>${co.s.map(s=>`<span class="ancient-stat">${s}</span>`).join('')}</div>`; }); } }
 function abrirM(p, s, i) { cur={p,s,i}; document.getElementById('modal-item-name').innerText=DB[p][s][i]; document.getElementById('modal-overlay').style.display='block'; document.getElementById('modal').style.display='block'; }
 function cerrarModal() { document.getElementById('modal-overlay').style.display='none'; document.getElementById('modal').style.display='none'; }
+
+// MODIFICADO: Guarda localmente y sincroniza de inmediato a Supabase
 function guardarItem() {
 let id=`${cur.p}_${cur.s}_${cur.i}`; if(!stock[id]) stock[id]=[];
 stock[id].push({ l1:document.getElementById('m-l1').checked, l2:document.getElementById('m-l2').checked, sk:document.getElementById('m-sk').checked, a16:document.getElementById('m-a16').checked, a28:document.getElementById('m-a28').checked, v:document.getElementById('m-vit').value, loc:document.getElementById('m-loc').value });
-localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); cerrarModal();
+localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); 
+guardarDatosEnSupabase(); // Ordena subir los datos al servidor en la nube
+cerrarModal();
 actualizarContadores(); renderItems(cur.p, cur.s, document.getElementById('content'));
 }
-function vender(id, idx, p, s) { stock[id].splice(idx, 1); localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); actualizarContadores(); if(p==='ALMACEN') renderAlmacen(document.getElementById('content'), s); else if(p==='STOCK') renderStock(document.getElementById('content')); else renderItems(p,s,document.getElementById('content')); }
-function factoryReset(){ if(confirm("¿RESET?")) { localStorage.removeItem('mu_warehouse_vFinal'); stock={}; verPestaña('STOCK'); } }
+
+// MODIFICADO: Borra la pieza localmente y sincroniza el cambio a Supabase
+function vender(id, idx, p, s) { stock[id].splice(idx, 1); localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); guardarDatosEnSupabase(); actualizarContadores(); if(p==='ALMACEN') renderAlmacen(document.getElementById('content'), s); else if(p==='STOCK') renderStock(document.getElementById('content')); else renderItems(p,s,document.getElementById('content')); }
+
+// MODIFICADO: Borra todo el stock de Supabase también
+function factoryReset(){ if(confirm("¿RESET COMPLETO? Se borrará todo en la nube también.")) { localStorage.removeItem('mu_warehouse_vFinal'); stock={}; guardarDatosEnSupabase(); verPestaña('STOCK'); } }
+
 function renderModuloBaseDatos(c) {
  let estuche = document.createElement('div'); estuche.className = 'caja-edicion-mu';
- estuche.innerHTML = `<h2>⚙️ Base de Datos Interna (Cargar / Editar Datos)</h2><textarea id="txt-base-datos" placeholder="Cargando tus datos almacenados..."></textarea><div class="botones-zona-mu"><button class="btn-db-mu btn-db-mu-save" onclick="aplicarDatosModificadosMU()">💾 Aplicar Cambios Modificados</button><button class="btn-db-mu" onclick="forzarCargaTextoMU()">🔄 Deshacer / Cargar Texto Real</button><button class="btn-db-mu" onclick="descargarCopiaSeguridadMU()">📥 Descargar Respaldo (.txt)</button><button class="btn-db-mu" style="border-color: var(--acc); color: var(--acc);" onclick="document.getElementById('input-archivo-mu').click()">📂 Cargar Respaldo desde PC</button><input type="file" id="input-archivo-mu" accept=".txt,.json" style="display: none;" onchange="leerArchivoLocalMU(this)"></div>`;
+ estuche.innerHTML = `<h2>⚙️ Base de Datos en la Nube (Editar Código JSON directo)</h2><textarea id="txt-base-datos" placeholder="Cargando tus datos almacenados..."></textarea><div class="botones-zona-mu"><button class="btn-db-mu btn-db-mu-save" onclick="aplicarDatosModificadosMU()">💾 Aplicar Cambios Modificados</button><button class="btn-db-mu" onclick="forzarCargaTextoMU()">🔄 Deshacer / Cargar Texto Real</button><button class="btn-db-mu" onclick="descargarCopiaSeguridadMU()">📥 Descargar Respaldo (.txt)</button><button class="btn-db-mu" style="border-color: var(--acc); color: var(--acc);" onclick="document.getElementById('input-archivo-mu').click()">📂 Importar Archivo Viejo desde PC</button><input type="file" id="input-archivo-mu" accept=".txt,.json" style="display: none;" onchange="leerArchivoLocalMU(this)"></div>`;
  c.appendChild(estuche); forzarCargaTextoMU();
 }
 function forzarCargaTextoMU() { let campoTexto = document.getElementById('txt-base-datos'); if(campoTexto) { campoTexto.value = JSON.stringify(stock, null, 2); } }
-function aplicarDatosModificadosMU() { try { let nuevoTexto = document.getElementById('txt-base-datos').value; stock = JSON.parse(nuevoTexto); localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); alert("¡Base de datos actualizada con éxito!"); verPestaña('STOCK', document.querySelector('.btn-pj')); } catch(e) { alert("Error: Formato JSON inválido."); } }
+
+// MODIFICADO: Permite escribir texto JSON a mano y forzar guardado en Supabase
+function aplicarDatosModificadosMU() { try { let nuevoTexto = document.getElementById('txt-base-datos').value; stock = JSON.parse(nuevoTexto); localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); guardarDatosEnSupabase(); alert("¡Base de datos actualizada con éxito en la nube!"); verPestaña('STOCK', document.querySelector('.btn-pj')); } catch(e) { alert("Error: Formato JSON inválido."); } }
 function descargarCopiaSeguridadMU() { let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(stock, null, 2)); let downloadAnchor = document.createElement('a'); downloadAnchor.setAttribute("href", dataStr); downloadAnchor.setAttribute("download", "mu_warehouse_vFinal.txt"); document.body.appendChild(downloadAnchor); downloadAnchor.click(); downloadAnchor.remove(); }
-function leerArchivoLocalMU(input) { let archivo = input.files[0]; if (!archivo) return; let lector = new FileReader(); lector.onload = function(e) { let contenido = e.target.result; try { JSON.parse(contenido); document.getElementById('txt-base-datos').value = contenido; alert("¡Archivo cargado! Haz clic en 'Aplicar Cambios' para guardarlo."); } catch (err) { alert("Error: El archivo no es válido."); } }; lector.readAsText(archivo); input.value = ''; }
+
+// MODIFICADO: Permite subir tu viejo archivo txt para inyectarlo en Supabase por primera vez
+function leerArchivoLocalMU(input) { let archivo = input.files[0]; if (!archivo) return; let lector = new FileReader(); lector.onload = function(e) { let contenido = e.target.result; try { stock = JSON.parse(contenido); localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); document.getElementById('txt-base-datos').value = contenido; guardarDatosEnSupabase(); alert("¡Tu viejo respaldo se ha subido e inyectado con éxito en Supabase!"); verPestaña('STOCK'); } catch (err) { alert("Error: El archivo no es válido."); } }; lector.readAsText(archivo); input.value = ''; }
 verPestaña('STOCK');
 </script>
 </body>
