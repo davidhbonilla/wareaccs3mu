@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <title>ArgMU S3 - Warehouse Control Pro</title>
 <style>
-:root { --gold: #d4af37; --bg: #050505; --card: #111; --acc: #00e5ff; --green: #52ff52; --red: #ff4d4d; --orange: #ff8c00; --blue-ancient: #7daeff; --blue-info: #0095ff; }
+:root { --gold: #d4af37; --bg: #050505; --card: #111; --acc: #00e5ff; --green: #52ff52;
+--red: #ff4d4d; --orange: #ff8c00; --blue-ancient: #7daeff; --blue-info: #0095ff; }
 body { background: var(--bg); color: #eee; font-family: 'Tahoma', sans-serif; margin: 0; padding: 20px; }
 h1 { text-align: center; color: var(--gold); text-transform: uppercase; border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 10px; }
 .resumen-global { display: flex; justify-content: center; gap: 40px; margin-bottom: 20px; background: #111; padding: 15px; border: 1px solid #333; position: relative; }
@@ -101,34 +102,38 @@ MAGO: [{n:'ANUBIS + BERNACKE', s:['Ignorar Defensa +5%','Daño Doble +10%'], h:'
 DK: [{n:'HYON + VICIOUS', s:['Daño Crítico +40','Daño Doble +15%'], h:'Daño BK.'}]
 };
 
-const SUPABASE_URL = 'https://supabase.co';
-const SUPABASE_KEY = 'sb_publishable_7wOgK9YWZmmeEyLCKxYp-g_br2tB_pUv8_m4S-yA1tM-UuO-mK6';
+// ==========================================
+// CONFIGURACIÓN DE TU NUEVA NUBE EN JSONBIN.IO
+// ==========================================
+const BIN_ID = '6a89cb21f5f4af5e2935d16f'; 
+const MASTER_KEY = '$2a$10$AHz86Awq/Y0yjpfvr0a7Z0oZGhibaJCFD9QBoTykNafozGKo0wSfO';
 
 function cargarDatosDesdeSupabase() {
-    fetch(`${SUPABASE_URL}/rest/v1/inventario_mu?id=eq.1`, {
+    fetch(`https://jsonbin.io{BIN_ID}/latest`, {
         method: 'GET',
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+        headers: { 'X-Master-Key': MASTER_KEY }
     })
     .then(response => response.json())
-    .then(data => {
-        if (data && data.length > 0 && data[0].datos) {
-            stock = data[0].datos;
+    .then(res => {
+        if (res.record) {
+            stock = res.record;
             localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock));
             actualizarContadores();
             if (document.getElementById('txt-base-datos')) { forzarCargaTextoMU(); }
-            verPestaña('STOCK');
+            const botonActivo = document.querySelector('.btn-pj.active');
+            if (botonActivo) { verPestaña('STOCK'); }
         }
     })
-    .catch(err => console.error("Error al cargar de Supabase:", err));
+    .catch(err => console.error("Error al cargar datos desde internet:", err));
 }
 
 function guardarDatosEnSupabase() {
-    fetch(`${SUPABASE_URL}/rest/v1/inventario_mu?id=eq.1`, {
-        method: 'PATCH',
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ datos: stock })
+    fetch(`https://jsonbin.io{BIN_ID}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
+        body: JSON.stringify(stock)
     })
-    .catch(err => console.error("Error al guardar en Supabase:", err));
+    .catch(err => console.error("Error al guardar en la nube:", err));
 }
 
 const KEYS = ['mu_warehouse_vFinal', 'mu_warehouse_v7', 'mu_warehouse_v6'];
