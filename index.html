@@ -61,6 +61,7 @@ h1 { text-align: center; color: var(--gold); text-transform: uppercase; border-b
 <button class="btn-pj" onclick="verPestaña('MAGO', this)">MAGO</button>
 <button class="btn-pj" onclick="verPestaña('DK', this)">DK</button>
 <button class="btn-pj" onclick="verPestaña('ELF', this)">ELF</button>
+<button class="btn-pj" onclick="var_mg" style="display:none;"></button>
 <button class="btn-pj" onclick="verPestaña('MG', this)">MG</button>
 <button class="btn-pj" onclick="verPestaña('DL', this)">DL</button>
 <button class="btn-pj" style="border-color: var(--orange); color: var(--orange);" onclick="verPestaña('COMPONENTE_DATA', this)">Base de Datos</button>
@@ -101,7 +102,7 @@ MAGO: [{n:'ANUBIS + BERNACKE', s:['Ignorar Defensa +5%','Daño Doble +10%'], h:'
 DK: [{n:'HYON + VICIOUS', s:['Daño Crítico +40','Daño Doble +15%'], h:'Daño BK.'}]
 };
 
-// ENLACE DIRECTO SIN CORS KVDB.IO
+// LLAVE DE TU CONTENEDOR VISUALIZADO
 const KVDB_URL = 'https://kvdb.io';
 
 function cargarDatosDesdeSupabase() {
@@ -111,23 +112,34 @@ function cargarDatosDesdeSupabase() {
         return response.json();
     })
     .then(data => {
-        if (data) {
+        if (data && Object.keys(data).length > 0) {
             stock = data;
             localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock));
             actualizarContadores();
             if (document.getElementById('txt-base-datos')) { forzarCargaTextoMU(); }
-            verPestaña('STOCK');
+            const botonActivo = document.querySelector('.btn-pj.active');
+            if (botonActivo) { verPestaña('STOCK'); }
         }
     })
-    .catch(err => console.log("Iniciando con base local o vacía"));
+    .catch(err => console.log("Casillero en la nube vacío o iniciando local."));
 }
 
-function guardarDatosEnSupabase() {
-    fetch(KVDB_URL, {
-        method: 'POST',
+// CORREGIDO: Usa PUT con cabecera estricta y avisa SOLO si guarda de verdad
+function guardarDatosEnSupabase(mostrarAlerta = false) {
+    return fetch(KVDB_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(stock)
     })
-    .catch(err => console.error("Error al guardar:", err));
+    .then(res => {
+        if(!res.ok) throw new Error("Error del servidor KVdb");
+        console.log("Sincronizado con KVdb.io");
+        if(mostrarAlerta) alert("¡Base de datos guardada REALMENTE en la nube con éxito!");
+    })
+    .catch(err => {
+        console.error("Fallo de guardado:", err);
+        alert("Error de conexión: No se pudo subir el stock a internet.");
+    });
 }
 
 const KEYS = ['mu_warehouse_vFinal', 'mu_warehouse_v7', 'mu_warehouse_v6'];
@@ -178,13 +190,13 @@ function guardarItem() {
 let id=`${cur.p}_${cur.s}_${cur.i}`; if(!stock[id]) stock[id]=[];
 stock[id].push({ l1:document.getElementById('m-l1').checked, l2:document.getElementById('m-l2').checked, sk:document.getElementById('m-sk').checked, a16:document.getElementById('m-a16').checked, a28:document.getElementById('m-a28').checked, v:document.getElementById('m-vit').value, loc:document.getElementById('m-loc').value });
 localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); 
-guardarDatosEnSupabase();
+guardarDatosEnSupabase(false);
 cerrarModal();
 actualizarContadores(); renderItems(cur.p, cur.s, document.getElementById('content'));
 }
 
-function vender(id, idx, p, s) { stock[id].splice(idx, 1); localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); guardarDatosEnSupabase(); actualizarContadores(); if(p==='ALMACEN') renderAlmacen(document.getElementById('content'), s); else if(p==='STOCK') renderStock(document.getElementById('content')); else renderItems(p,s,document.getElementById('content')); }
-function factoryReset(){ if(confirm("¿RESET COMPLETO? Se borrará todo.")) { localStorage.removeItem('mu_warehouse_vFinal'); stock={}; guardarDatosEnSupabase(); verPestaña('STOCK'); } }
+function vender(id, idx, p, s) { stock[id].splice(idx, 1); localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); guardarDatosEnSupabase(false); actualizarContadores(); if(p==='ALMACEN') renderAlmacen(document.getElementById('content'), s); else if(p==='STOCK') renderStock(document.getElementById('content')); else renderItems(p,s,document.getElementById('content')); }
+function factoryReset(){ if(confirm("¿RESET COMPLETO? Se borrará todo.")) { localStorage.removeItem('mu_warehouse_vFinal'); stock={}; guardarDatosEnSupabase(false); verPestaña('STOCK'); } }
 
 function renderModuloBaseDatos(c) {
  let estuche = document.createElement('div'); estuche.className = 'caja-edicion-mu';
@@ -192,9 +204,39 @@ function renderModuloBaseDatos(c) {
  c.appendChild(estuche); forzarCargaTextoMU();
 }
 function forzarCargaTextoMU() { let campoTexto = document.getElementById('txt-base-datos'); if(campoTexto) { campoTexto.value = JSON.stringify(stock, null, 2); } }
-function aplicarDatosModificadosMU() { try { let nuevoTexto = document.getElementById('txt-base-datos').value; stock = JSON.parse(nuevoTexto); localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); guardarDatosEnSupabase(); alert("¡Base de datos actualizada con éxito en la nube!"); verPestaña('STOCK', document.querySelector('.btn-pj')); } catch(e) { alert("Error: Formato JSON inválido."); } }
+
+// CORREGIDO: Fuerza el guardado y salta la alerta SOLO si el servidor responde OK
+function aplicarDatosModificadosMU() { 
+    try { 
+        let nuevoTexto = document.getElementById('txt-base-datos').value; 
+        stock = JSON.parse(nuevoTexto); 
+        localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); 
+        guardarDatosEnSupabase(true); 
+    } catch(e) { 
+        alert("Error: Formato JSON inválido."); 
+    } 
+}
 function descargarCopiaSeguridadMU() { let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(stock, null, 2)); let downloadAnchor = document.createElement('a'); downloadAnchor.setAttribute("href", dataStr); downloadAnchor.setAttribute("download", "mu_warehouse_vFinal.txt"); document.body.appendChild(downloadAnchor); downloadAnchor.click(); downloadAnchor.remove(); }
-function leerArchivoLocalMU(input) { let archivo = input.files; if (!archivo) return; let lector = new FileReader(); lector.onload = function(e) { let contenido = e.target.result; try { stock = JSON.parse(contenido); localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); document.getElementById('txt-base-datos').value = contenido; guardarDatosEnSupabase(); alert("¡Tu viejo respaldo se ha inyectado con éxito en la nube!"); verPestaña('STOCK'); } catch (err) { alert("Error: El archivo no es válido."); } }; lector.readAsText(archivo); input.value = ''; }
+
+// CORREGIDO: Importa el respaldo y fuerza el guardado con alerta real
+function leerArchivoLocalMU(input) { 
+    let archivo = input.files; 
+    if (!archivo) return; 
+    let lector = new FileReader(); 
+    lector.onload = function(e) { 
+        let contenido = e.target.result; 
+        try { 
+            stock = JSON.parse(contenido); 
+            localStorage.setItem('mu_warehouse_vFinal', JSON.stringify(stock)); 
+            document.getElementById('txt-base-datos').value = contenido; 
+            guardarDatosEnSupabase(true); 
+        } catch (err) { 
+            alert("Error: El archivo no es válido."); 
+        } 
+    }; 
+    lector.readAsText(archivo); 
+    input.value = ''; 
+}
 verPestaña('STOCK');
 </script>
 </body>
